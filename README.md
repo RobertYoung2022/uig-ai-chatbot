@@ -1,35 +1,62 @@
 # DeFi Correlation Coach
 
-A chatbot that helps you understand crypto correlations and DeFi investing strategies. Built with Streamlit, LangChain, and OpenAI.
+A DeFi/Crypto Investment Coach Chatbot powered by RAG (Retrieval-Augmented Generation) technology. This chatbot provides insights and education about crypto correlations and DeFi investing strategies, enhanced with real-time market data.
 
 ## Features
 
-- Interactive chat interface
-- Knowledge base from comprehensive DeFi correlation guides
-- Conversational memory to maintain context
-- Powered by GPT-4 for accurate and nuanced responses
-- Vector store for efficient information retrieval
-- Persistent ChromaDB storage for embeddings
-- Chunk-based document processing for optimal context retrieval
-- Memory-based conversation tracking
+- 🎮 AI-powered chat interface
+- 🌐 Real-time cryptocurrency market data
+- 📈 Live price tracking for top cryptocurrencies
+- 🔚 Content-aware responses based on your materials
+- 🚡 Educational focus with investment disclaimers
+- ⚡ Real-time streaming responses
+- 🎨 Modern, responsive UI
+- 📄 Easy content updates
+- 🗄️ Persistent ChromaDB storage for embeddings
+- 📝 Chunk-based document processing
+- 🧠 Memory-based conversation tracking
+
+## Live Market Data
+
+The chatbot includes a live market data panel that displays:
+- Total cryptocurrency market capitalization
+- 24-hour trading volume
+- Bitcoin dominance
+- Top 5 cryptocurrencies with current prices and 24h changes
+- Automatic 1-minute data refresh
+
+Market data is provided by CoinGecko API and is automatically included in chat responses when discussing prices or market conditions.
 
 ## Setup
 
-1. Clone this repository
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/RobertYoung2022/uig-ai-chatbot.git
+   cd uig-ai-chatbot
+   ```
+
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
+
 3. Create a `.env` file and add your OpenAI API key:
+   ```bash
+   cp .env.example .env
    ```
-   OPENAI_API_KEY=your_api_key_here
-   ```
+   Fill in the required environment variables in `.env`:
+   - `OPENAI_API_KEY`: Your OpenAI API key
+   - `COMPLETION_MODEL`: OpenAI model to use (default: gpt-4)
+   - `EMBEDDING_MODEL`: OpenAI embedding model (default: text-embedding-3-small)
+
 4. Ensure you have the following directory structure:
    ```
    .
    ├── data/
-   │   ├── tech-analy-uig.md    # Knowledge base document
-   │   └── chromadb/            # Will be created automatically for vector store
+   │   ├── raw/              # Source content files
+   │   ├── processed/        # Processed content
+   │   ├── tech-analy-uig.md # Knowledge base document
+   │   └── chromadb/        # Vector database storage
    ├── app.py
    ├── requirements.txt
    └── .env
@@ -55,7 +82,7 @@ A chatbot that helps you understand crypto correlations and DeFi investing strat
 
 ## Usage
 
-Simply type your questions about crypto correlations, DeFi investing, or related topics in the chat input. The bot will provide detailed responses based on its knowledge base.
+Simply type your questions about crypto correlations, DeFi investing, or related topics in the chat input. The bot will provide detailed responses based on its knowledge base and current market data.
 
 Example questions:
 - "What is correlation in crypto?"
@@ -63,11 +90,68 @@ Example questions:
 - "What are the different types of correlations?"
 - "How can I use correlation in my DeFi investment strategy?"
 
-## Data Sources
+## Content Management
 
-The chatbot's knowledge is based on comprehensive guides about:
-- Crypto correlation basics
-- Types of correlations
-- Correlation coefficients
-- Factors influencing crypto correlations
-- Applications in concentrated liquidity pools
+### Supported File Types
+- Articles: `.txt` files
+- Video Transcripts: `.vtt` or `.srt` files
+
+### Adding New Content
+1. Add new files to `data/raw`
+2. Run the ingestion script:
+   ```bash
+   npm run ingest
+   ```
+
+## Development
+
+### Project Structure
+```
+uig-ai-chatbot/
+├── app/
+│   ├── api/
+│   ├── chat/          # Chat API endpoint
+│   │   ├── Chat.tsx   # Chat interface component
+│   │   └── MarketData.tsx # Live market data component
+│   └── lib/
+│       ├── content/     # Content processing utilities
+│       ├── market/      # Market data services
+│       ├── embeddings/  # Embedding utilities
+│       └── vectorstore/ # Vector database interface
+├── data/
+│   ├── raw/            # Source content files
+│   ├── processed/      # Processed content
+│   └── chromadb/       # Vector database storage
+└── scripts/
+    └── ingest.ts       # Content ingestion script
+```
+
+### Features and Configuration
+
+The chatbot's features can be configured in `app/config/chat.ts`:
+
+```typescript
+features: {
+  enableWalletIntegration: false,  // Future feature
+  enableLiveData: true,           // Live market data
+  enablePersonalization: false,    // Future feature
+}
+
+market: {
+  updateInterval: 60000,          // Update interval in ms
+  maxCoins: 5,                    // Number of top coins to display
+  includePriceHistory: false,     // Future feature
+}
+```
+
+### Future Extensions
+The project is designed to be extensible with:
+- Wallet integration for portfolio tracking
+- Price history and charts
+- Personalized investment recommendations
+- Additional market data sources
+- Technical analysis indicators
+
+## License
+
+MIT
