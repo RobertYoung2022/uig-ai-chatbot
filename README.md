@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DeFi Correlation Coach
 
-## Getting Started
+A chatbot that helps you understand crypto correlations and DeFi investing strategies. Built with Streamlit, LangChain, and OpenAI.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Interactive chat interface
+- Knowledge base from comprehensive DeFi correlation guides
+- Conversational memory to maintain context
+- Powered by GPT-4 for accurate and nuanced responses
+- Vector store for efficient information retrieval
+- Persistent ChromaDB storage for embeddings
+- Chunk-based document processing for optimal context retrieval
+- Memory-based conversation tracking
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone this repository
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Create a `.env` file and add your OpenAI API key:
+   ```
+   OPENAI_API_KEY=your_api_key_here
+   ```
+4. Ensure you have the following directory structure:
+   ```
+   .
+   ├── data/
+   │   ├── tech-analy-uig.md    # Knowledge base document
+   │   └── chromadb/            # Will be created automatically for vector store
+   ├── app.py
+   ├── requirements.txt
+   └── .env
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Technical Details
 
-## Learn More
+- **Document Processing**: Uses CharacterTextSplitter with 500-character chunks and 50-character overlap
+- **Vector Store**: ChromaDB with persistence enabled
+- **Embeddings**: OpenAI Embeddings
+- **LLM**: GPT-4 with temperature 0.7
+- **Memory**: ConversationBufferMemory with message history
+- **Retrieval**: Top-3 most relevant chunks for each query
 
-To learn more about Next.js, take a look at the following resources:
+## Running the Application
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Make sure you're in the project directory
+2. Run the Streamlit app:
+   ```bash
+   streamlit run app.py
+   ```
+3. Open your browser and navigate to the URL shown in the terminal (usually http://localhost:8501)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Usage
 
-## Deploy on Vercel
+Simply type your questions about crypto correlations, DeFi investing, or related topics in the chat input. The bot will provide detailed responses based on its knowledge base.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Example questions:
+- "What is correlation in crypto?"
+- "How do market sentiments affect crypto correlations?"
+- "What are the different types of correlations?"
+- "How can I use correlation in my DeFi investment strategy?"
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Data Sources
+
+The chatbot's knowledge is based on comprehensive guides about:
+- Crypto correlation basics
+- Types of correlations
+- Correlation coefficients
+- Factors influencing crypto correlations
+- Applications in concentrated liquidity pools
